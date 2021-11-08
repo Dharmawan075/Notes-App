@@ -26,12 +26,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadData()
+        getNotes()
     }
 
-    private fun loadData(){
+    // Get all notes
+    private fun getNotes(){
         CoroutineScope(Dispatchers.IO).launch {
-            noteAdapter.setData(db.noteDao().readNotes())
+            noteAdapter.setData(db.noteDao().readNotes())  // Read all notes saved in database
             withContext(Dispatchers.Main) {
                 noteAdapter.notifyDataSetChanged()
             }
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListener(){
         newButton.setOnClickListener {
-            intentEdit(Constant.TYPE_CREATE, 0)
+            actionIntent(Constant.TYPE_CREATE, 0)  // Set intentType for create
         }
     }
 
@@ -55,11 +56,11 @@ class MainActivity : AppCompatActivity() {
                 arrayListOf(),
                 object : NoteAdapter.OnAdapterListener {
                     override fun onNew(note: Note) {
-                        intentEdit(Constant.TYPE_READ, note.id)
+                        actionIntent(Constant.TYPE_READ, note.id)  // Set intentType for read
                     }
 
                     override fun onUpdate(note: Note) {
-                        intentEdit(Constant.TYPE_UPDATE, note.id)
+                        actionIntent(Constant.TYPE_UPDATE, note.id)  // Set intentType for update
                     }
 
                     override fun onDelete(note: Note) {
@@ -73,12 +74,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun intentEdit(intent_type: Int, note_id: Int) {
-        startActivity(
-                Intent(this, EditActivity::class.java)
-                        .putExtra("intent_type", intent_type)
-                        .putExtra("note_id", note_id)
-        )
+    private fun actionIntent(intent_type: Int, note_id: Int) {
+        val intent = Intent(this, EditActivity::class.java)
+                .putExtra("intent_type", intent_type)
+                .putExtra("note_id", note_id)
+        startActivity(intent)
     }
 
     private fun deleteAlert(note: Note){
@@ -86,14 +86,14 @@ class MainActivity : AppCompatActivity() {
         dialog.apply {
             setTitle("Delete note")
             setMessage("Do you want to delete ${note.title}?")
-            setNegativeButton("No") { dialogInterface, i ->
+            setNegativeButton("No") { dialogInterface, _ ->
                 dialogInterface.dismiss()
             }
-            setPositiveButton("Yes") { dialogInterface, i ->
+            setPositiveButton("Yes") { dialogInterface, _ ->
                 CoroutineScope(Dispatchers.IO).launch {
                     db.noteDao().deleteNote(note)
                     dialogInterface.dismiss()
-                    loadData()
+                    getNotes()
                 }
             }
         }.show()

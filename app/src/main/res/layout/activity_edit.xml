@@ -8,6 +8,7 @@
     android:padding="20dp">
 
     <EditText
+        android:textCursorDrawable="@drawable/cursor"
         android:id="@+id/titleEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
+        android:textCursorDrawable="@drawable/cursor"
         android:id="@+id/noteEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

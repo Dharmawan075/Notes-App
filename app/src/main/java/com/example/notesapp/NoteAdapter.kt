@@ -12,8 +12,7 @@ class NoteAdapter(private val notes: ArrayList<Note>, private val listener: OnAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
-                LayoutInflater.from(parent.context)
-                        .inflate(R.layout.notes, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.notes, parent, false)
         )
     }
 
