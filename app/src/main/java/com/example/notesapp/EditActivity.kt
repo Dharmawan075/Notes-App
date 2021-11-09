@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.example.notesapp.room.Constant
 import com.example.notesapp.room.Note
@@ -53,7 +54,7 @@ class EditActivity : AppCompatActivity() {
 
     private fun setupListener(){
         createButton.setOnClickListener {
-            if(TextUtils.isEmpty(titleEditText.text)) { // Check if EditText is empty
+            if (TextUtils.isEmpty(titleEditText.text)) { // Check if EditText is empty
                 Toast.makeText(this, "Please fill the title field!", Toast.LENGTH_SHORT).show()  // Make Toast
                 titleEditText.requestFocus()  // Set focus to Edit Text
             } else {
